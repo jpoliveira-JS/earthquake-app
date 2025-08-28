@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { EarthquakeApiResponse } from '@/types/earthquake'
 import { getDateXDaysAgo } from '@/utils/date'
 
-const LazyMap = dynamic(() => import('@/components/Map'), {
+const LazyMap = dynamic(() => import('@/components/EarthquakeMap'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 })
@@ -16,6 +16,13 @@ export default function Home() {
   const [data, setData] = useState<EarthquakeApiResponse>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const [selectedCoords, setSelectedCoords] = useState<[number, number]>()
+
+  const onClickItem = (coords: [number, number]) => {
+    setSelectedCoords(coords)
+    // This function can be used to handle clicks on sidebar items
+  }
 
   useEffect(() => {
     async function fetchEarthquakes() {
@@ -43,8 +50,8 @@ export default function Home() {
 
   return (
     <div className='page-layout'>
-      <Sidebar earthquakes={data?.features || []} />
-      <LazyMap data={data} />
+      <Sidebar earthquakes={data?.features || []} onClickItem={onClickItem} />
+      <LazyMap data={data} selectedCoords={selectedCoords} />
     </div>
   )
 }
