@@ -16,6 +16,7 @@ body {
   border-right: 1px solid #ddd;
   padding: 1rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .map-container {
