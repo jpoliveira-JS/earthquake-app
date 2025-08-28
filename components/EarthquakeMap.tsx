@@ -18,11 +18,10 @@ export default function EarthquakeMap({ data, selectedCoords }: Props) {
 
   const onEachFeature = (feature: any, layer: any) => {
     const { place, mag, time } = feature.properties
-
     layer.bindPopup(
       `<strong>${place}</strong><br>Magnitude: ${mag}<br>${new Date(
         time,
-      ).toLocaleString()}`,
+      ).toLocaleString('en-GB')}`,
     )
 
     layerRef.current.set(feature.id, layer)
