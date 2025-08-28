@@ -1,17 +1,45 @@
 export interface EarthquakeFeature {
-  id: string
+  type: "Feature",
   properties: {
-    place: string
-    mag: number
-    time: number
-  }
-  geometry: {
+    mag: number,
+    place: string,
+    time: number,
+    updated: number,
+    tz: number,
+    url: string,
+    detail: string,
+    felt:number,
+    cdi: number,
+    mmi: number,
+    alert: string,
+    status: string,
+    tsunami: number,
+    sig:number,
+    net: string,
+    code: string,
+    ids: string,
+    sources: string,
+    types: string,
+    nst: number,
+    dmin: number,
+    rms: number,
+    gap: number,
+    magType: string,
     type: string
-    coordinates: [number, number, number]
-  }
+  },
+  geometry: {
+    type: "Point",
+    coordinates: [
+      number, // longitude,
+      number, // latitude,
+      number  // depth
+    ]
+  },
+  id: string
 }
 
+
 export interface EarthquakeApiResponse {
-  type: "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection" | "Feature" | "FeatureCollection"
+  type: "FeatureCollection"
   features: EarthquakeFeature[]
 }
