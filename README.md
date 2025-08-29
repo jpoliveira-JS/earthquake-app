@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Earthquake list and map, made with Next.js
 
 ## Getting Started
 
-First, run the development server:
+To run the app locally:
 
 ```bash
+git clone https://github.com/jpoliveira-JS/earthquake-app.git
+cd /earthquake-app/
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+There are two main areas where this project could be improved further:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Performance with large datasets
+At the moment, the map uses Leaflet’s built-in <GeoJSON /> component. This works well for smaller datasets, but performance starts to degrade when rendering a large number of markers. A better approach would be to build a custom map component from scratch, giving me full control over how features are rendered. For example, I could implement clustering logic to group overlapping markers, which would significantly improve both performance and usability when handling large datasets.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Prompt-based input parsing
+I experimented with adding a natural language prompt input powered by an LLM, but I ultimately chose not to include it fully in this version. In a production scenario, I would either integrate with an external API (such as OpenAI’s API, though it requires a paid or trial account) or run a lightweight open-source model locally (e.g., via Ollama). However, the latter option would make the project harder to set up for others. For this assessment, I prioritized keeping the project simple and easy to run.
