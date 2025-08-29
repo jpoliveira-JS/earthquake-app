@@ -4,7 +4,7 @@ import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet'
 import L from 'leaflet'
 import { LatLngTuple } from 'leaflet'
 
-import { EarthquakeApiResponse } from '@/types/earthquake'
+import { EarthquakeApiResponse, EarthquakeFeature } from '@/types/earthquake'
 import { useEffect, useRef } from 'react'
 interface Props {
   data?: EarthquakeApiResponse
@@ -16,7 +16,8 @@ export default function EarthquakeMap({ data, selectedCoords }: Props) {
   const mapRef = useRef<L.Map>(null)
   const layerRef = useRef<Map<string, L.Layer>>(new Map())
 
-  const onEachFeature = (feature: any, layer: any) => {
+  // eslint-disable-next-line
+  const onEachFeature = (feature: EarthquakeFeature, layer: any) => {
     const { place, mag, time } = feature.properties
     layer.bindPopup(
       `<strong>${place}</strong><br>Magnitude: ${mag}<br>${new Date(
@@ -27,7 +28,7 @@ export default function EarthquakeMap({ data, selectedCoords }: Props) {
     layerRef.current.set(feature.id, layer)
   }
 
-  const pointToLayer = (feature: any, latlng: L.LatLng) => {
+  const pointToLayer = (feature: EarthquakeFeature, latlng: L.LatLng) => {
     const magnitude = feature.properties.mag || 1
     return L.circleMarker(latlng, {
       radius: 4 + magnitude * 2,
@@ -65,7 +66,7 @@ export default function EarthquakeMap({ data, selectedCoords }: Props) {
     <MapContainer
       ref={mapRef}
       center={center}
-      zoom={2}
+      zoom={3}
       scrollWheelZoom={true}
       className='map-container'
     >
