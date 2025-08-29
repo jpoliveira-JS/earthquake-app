@@ -16,21 +16,27 @@ export default function Home() {
   const [data, setData] = useState<EarthquakeApiResponse>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [params, setParams] = useState({ minMag: 3, days: 7 })
 
   const [selectedCoords, setSelectedCoords] = useState<[number, number]>()
 
   const onClickItem = (coords: [number, number]) => {
     setSelectedCoords(coords)
-    // This function can be used to handle clicks on sidebar items
+  }
+
+  const changeParams = (newParams: { minMag: number; days: number }) => {
+    setParams(newParams)
   }
 
   useEffect(() => {
     async function fetchEarthquakes() {
+      setLoading(true)
+      setError(null)
       try {
-        const startDate = getDateXDaysAgo(7)
+        const startDate = getDateXDaysAgo(params.days)
         const endDate = getDateXDaysAgo(0)
         const res = await fetch(
-          `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${endDate}`,
+          `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${endDate}&minmagnitude=${params.minMag}`,
         )
         if (!res.ok) throw new Error('Failed to fetch data')
         const data: EarthquakeApiResponse = await res.json()
@@ -43,14 +49,19 @@ export default function Home() {
     }
 
     fetchEarthquakes()
-  }, [])
+  }, [params])
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
 
   return (
     <div className='page-layout'>
-      <Sidebar earthquakes={data?.features || []} onClickItem={onClickItem} />
+      <Sidebar
+        earthquakes={data?.features || []}
+        onClickItem={onClickItem}
+        changeParams={changeParams}
+        currentParams={params}
+      />
       <LazyMap data={data} selectedCoords={selectedCoords} />
     </div>
   )

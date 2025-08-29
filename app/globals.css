@@ -12,9 +12,9 @@ body {
 
 .sidebar {
   width: 450px;
-  background: #f8f9fa;
+  background: #fff;
   border-right: 1px solid #ddd;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
